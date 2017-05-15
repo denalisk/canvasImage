@@ -21,6 +21,7 @@ export class PictureComponent implements OnInit {
     this.myCanvas = document.getElementById("image-processor");
     this.ctx = this.myCanvas.getContext("2d");
     this.image.src = this.imageSrc;
+    console.log(this.image);
     this.placeImage(this.image);
   }
 
@@ -30,9 +31,9 @@ export class PictureComponent implements OnInit {
   }
 
   public placeImage(myImage): void {
+    this.setCanvasDimensions(myImage.width, myImage.height);
     this.ctx.drawImage(myImage, 0, 0);
     console.log(myImage.width);
-    this.setCanvasDimensions(myImage.width, myImage.height);
   }
 
   public drawRectangle(x: number, y: number, canvas): void {

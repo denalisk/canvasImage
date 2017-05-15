@@ -5,11 +5,13 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { PictureComponent } from './picture/picture.component';
+import { CanvasTestComponent } from './canvas-test/canvas-test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PictureComponent
+    PictureComponent,
+    CanvasTestComponent
   ],
   imports: [
     BrowserModule,
