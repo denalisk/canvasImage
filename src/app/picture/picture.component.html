@@ -1,0 +1,5 @@
+<canvas id="image-processor" [width]="width" [height]="height" (click)="canvasClick($event)"></canvas>
+
+<button class="btn btn-primary" type="button" name="button" (click)="placeImage()">Place Image</button>
+
+<button class="btn btn-warning" type="button" name="button" (click)="invert(imageData, ctx)">Invert</button>
