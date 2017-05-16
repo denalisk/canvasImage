@@ -17,7 +17,6 @@ export class CanvasTestComponent implements OnInit {
   constructor() {
     this.targetImage.src = "../../assets/images/hippo.jpg";
     this.targetImage.alt = "a pic";
-    this.debugLog();
    }
 
   ngOnInit() {
@@ -46,13 +45,15 @@ export class CanvasTestComponent implements OnInit {
     console.log(logData);
   }
 
-  public debugLog() {
-    console.log("Target image is :");
-    console.log(this.targetImage);
-    console.log("Current global height is " + this.imageHeight + " and current total width is " + this.imageWidth);
-    console.log("<<>>");
-    console.log("The current canvas is: ");
-    console.log(this.pCanvas);
+  public debugLog(event) {
+    // console.log("Target image is :");
+    // console.log(this.targetImage);
+    // console.log("Current global height is " + this.imageHeight + " and current total width is " + this.imageWidth);
+    // console.log("<<>>");
+    // console.log("The current canvas is: ");
+    // console.log(this.pCanvas);
+    console.log("Current mouse position");
+    console.log(event);
   }
 
   public loadImage() {
@@ -73,6 +74,23 @@ export class CanvasTestComponent implements OnInit {
     imageData = filter(imageData);
     context.putImageData(imageData, 0, 0);
   }
+
+  public getMousePosition(event) {
+    let rectangle = this.pCanvas.getBoundingClientRect();
+    return {
+      x: event.clientX - (rectangle.left + 1),
+      y: event.clientY - (rectangle.top + 1)
+    };
+  }
+
+  public drawRectangle(x: number, y: number, canvas): void {
+    canvas.beginPath();
+    canvas.rect(x, y, 10, 10);
+    canvas.fillStyle = "red";
+    canvas.fill();
+    canvas.closePath();
+  }
+
 
 }
 //

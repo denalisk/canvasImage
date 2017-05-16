@@ -1,9 +1,9 @@
-<canvas id="myCanvas" [width]="imageWidth" [height]="imageHeight" style="border: 1px solid black"></canvas>
+<canvas id="myCanvas" [width]="imageWidth" [height]="imageHeight" style="border: 1px solid black" (click)="debugLog($event)"></canvas>
 <img [src]="targetImage.src" [alt]="targetImage.alt">
 
 <button type="button" name="button" (click)="logPixelData()">Log it</button>
 
-<button type="button" name="button" (click)="debugLog()">Debug</button>
+<button type="button" name="button" (click)="debugLog($event)">Debug</button>
 
 <button type="button" name="button" (click)="loadImage()">Load the image</button>
 
