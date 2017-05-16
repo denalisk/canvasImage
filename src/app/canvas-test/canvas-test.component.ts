@@ -5,14 +5,23 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './canvas-test.component.html',
   styleUrls: ['./canvas-test.component.css']
 })
+
 export class CanvasTestComponent implements OnInit {
   public targetImage = new Image();
+  public imageHeight: number;
+  public imageWidth: number;
+  public pCanvas = null;
+  public ctx = null;
 
   constructor() { }
 
   ngOnInit() {
     this.targetImage.src = "../../assets/images/tile.jpg",
     this.targetImage.alt = "a pic";
+    this.imageHeight = this.targetImage.height;
+    this.imageWidth = this.targetImage.width;
+    this.pCanvas = document.getElementById("myCanvas");
+    this.ctx = this.pCanvas.getContext("2d");
   }
 
   public getPixelData(image) {
@@ -32,6 +41,19 @@ export class CanvasTestComponent implements OnInit {
   public logPixelData() {
     let logData = this.getPixelData(this.targetImage);
     console.log(logData);
+  }
+
+  public debugLog() {
+    console.log("Target image is :");
+    console.log(this.targetImage);
+    console.log("Current global height is " + this.imageHeight + " and current total width is " + this.imageWidth);
+    console.log("<<>>");
+    console.log("The current canvas is: ");
+    console.log(this.pCanvas);
+  }
+
+  public loadImage() {
+    this.ctx.drawImage(this.targetImage, 0, 0);
   }
 }
 //
