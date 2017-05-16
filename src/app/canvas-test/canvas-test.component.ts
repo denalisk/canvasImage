@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Traverser, CheckNode } from './../traverseTest';
 
 @Component({
   selector: 'app-canvas-test',
@@ -49,11 +50,16 @@ export class CanvasTestComponent implements OnInit {
     // console.log("Target image is :");
     // console.log(this.targetImage);
     // console.log("Current global height is " + this.imageHeight + " and current total width is " + this.imageWidth);
+
     // console.log("<<>>");
     // console.log("The current canvas is: ");
     // console.log(this.pCanvas);
-    console.log("Current mouse position");
-    console.log(this.getMousePosition(event));
+
+    // console.log("Current mouse position");
+    // console.log(this.getMousePosition(event));
+    let logData = this.getPixelData(this.targetImage);
+    var testConnection = new Traverser(logData);
+    testConnection.tester();
   }
 
   public loadImage() {

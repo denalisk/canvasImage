@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { PictureComponent } from './picture/picture.component';
 import { CanvasTestComponent } from './canvas-test/canvas-test.component';
+import { CheckNode, Traverser } from './traverseTest';
 
 @NgModule({
   declarations: [

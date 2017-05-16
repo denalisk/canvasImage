@@ -25,8 +25,6 @@ export class CheckNode {
 export class Traverser {
   public nodeA: CheckNode;
   public nodeB: CheckNode;
-  public pastNodeA: CheckNode;
-  public pastNodeB: CheckNode;
   public nodeContrast: boolean;
   public moveVector: number[]; //This is the directions the traverser moves each check
 
@@ -38,15 +36,28 @@ export class Traverser {
     this.imageDepth = imageData.data.length / (imageData.width * imageData.height);
   }
 
-  public moveNode() {
-
+  public moveNode(targetNode: CheckNode) {
+    targetNode.pastNode = targetNode;
+    targetNode.x += this.moveVector[0];
+    targetNode.y += this.moveVector[1];
+    this.checkEdge(targetNode);
   }
 
   public rotateNodes() {
-
+    // Rotates the traverser. Anchors off the current unique node and switches
+    // direction based on that
+    var anchorNode = (this.nodeA.edge === this.nodeA.pastNode.edge) ? this.nodeB : this.nodeA;
+    this.moveVector = [(anchorNode.x - anchorNode.partner.x), (anchorNode.y-anchorNode.partner.y)];
+    this.nodeA = anchorNode;
+    this.nodeB = anchorNode.pastNode;
   }
 
   public traverse() {
+    // This is the main node checker loop
+    // It holds the array of border elements as borderArray. Each iteration, it
+    // sets the node Contrast and that determines whether the current edge node
+    // gets pushed to the borderArray (as the next border point) or if the
+    // traverser gets rotated
     var borderArray = [];
     while (borderArray.length < 100) {
       this.checkNodeContrast();
@@ -61,6 +72,8 @@ export class Traverser {
   }
 
   public checkEdge(targetNode: CheckNode) {
+    // checks to see if a node is on the "edge" (is black, for now) or is at
+    // the edge of the image
     var index = targetNode.getIndex(this.imageData, this.imageDepth);
     var darkness = this.imageData.data[index] + this.imageData.data[index + 1] + this.imageData.data[index + 2];
     if (darkness > 360 || targetNode.x === 0 || targetNode.x === (this.imageData.width - 1) || targetNode.y === (this.imageData.height - 1) || targetNode.y === 0) {
@@ -72,5 +85,7 @@ export class Traverser {
     this.nodeContrast = (this.nodeA.edge !== this.nodeB.edge);
   }
 
-
+  public tester() {
+    console.log("all linked up");
+  }
 }
