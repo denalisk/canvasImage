@@ -26,6 +26,8 @@ export class Traverser {
   public nodeA: CheckNode;
   public nodeB: CheckNode;
   public nodeContrast: boolean;
+  public cutoff: number = 650;
+
   public moveVector: number[]; //This is the directions the traverser moves each check
 
   public imageData; //Holds the Uint8ClampedArray of pixel data as data, height, and width
@@ -59,6 +61,7 @@ export class Traverser {
     // gets pushed to the borderArray (as the next border point) or if the
     // traverser gets rotated
     var borderArray = [];
+    borderArray.push((this.nodeA.edge === true) ? this.nodeA : this.nodeB);
     while (borderArray.length < 100) {
       this.checkNodeContrast();
       if (this.nodeContrast) {
@@ -71,12 +74,28 @@ export class Traverser {
     }
   }
 
+  public findEdge(coords) {
+    // takes coordinate array [x, y] and starts looking for an edge. Stops when
+    // it finds one and initiates traverse
+    this.moveVector = [0, 1];
+    this.nodeA = new CheckNode(coords[0], coords[1]);
+    this.checkEdge(this.nodeA);
+    this.moveNode(this.nodeA);
+    this.nodeB = this.nodeA.pastNode;
+    while (this.nodeA.edge === this.nodeB.edge) {
+      this.moveNode(this.nodeA);
+      this.moveNode(this.nodeB);
+    }
+
+
+  }
+
   public checkEdge(targetNode: CheckNode) {
     // checks to see if a node is on the "edge" (is black, for now) or is at
     // the edge of the image
     var index = targetNode.getIndex(this.imageData, this.imageDepth);
     var darkness = this.imageData.data[index] + this.imageData.data[index + 1] + this.imageData.data[index + 2];
-    if (darkness > 360 || targetNode.x === 0 || targetNode.x === (this.imageData.width - 1) || targetNode.y === (this.imageData.height - 1) || targetNode.y === 0) {
+    if (darkness > this.cutoff || targetNode.x === 0 || targetNode.x === (this.imageData.width - 1) || targetNode.y === (this.imageData.height - 1) || targetNode.y === 0) {
       targetNode.edge = true;
     }
   }

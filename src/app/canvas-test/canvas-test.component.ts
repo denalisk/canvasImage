@@ -16,7 +16,7 @@ export class CanvasTestComponent implements OnInit {
   public imgDataUrl = null;
 
   constructor() {
-    this.targetImage.src = "../../assets/images/hippo.jpg";
+    this.targetImage.src = "../../assets/images/tile.jpg";
     this.targetImage.alt = "a pic";
    }
 
@@ -71,6 +71,16 @@ export class CanvasTestComponent implements OnInit {
       imageData.data[i] = 255 - imageData.data[i];
       imageData.data[i + 1] = 255 - imageData.data[i + 1];
       imageData.data[i + 2] = 255 -  imageData.data[i + 2];
+    }
+    return imageData;
+  }
+
+  public checkDarkness(imageData) {
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      let r = imageData.data[i];
+      let g = imageData.data[i + 1];
+      let b = imageData.data[i + 2];
+      imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = ((r+g+b) > 650) ? 0 : 255;
     }
     return imageData;
   }
