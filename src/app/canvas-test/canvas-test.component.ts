@@ -53,7 +53,7 @@ export class CanvasTestComponent implements OnInit {
     // console.log("The current canvas is: ");
     // console.log(this.pCanvas);
     console.log("Current mouse position");
-    console.log(event);
+    console.log(this.getMousePosition(event));
   }
 
   public loadImage() {
@@ -64,7 +64,7 @@ export class CanvasTestComponent implements OnInit {
     for (let i = 0; i < imageData.data.length; i += 4) {
       imageData.data[i] = 255 - imageData.data[i];
       imageData.data[i + 1] = 255 - imageData.data[i + 1];
-      imageData.data[i + 2] = 255 - imageData.data[i + 2];
+      imageData.data[i + 2] = 255 -  imageData.data[i + 2];
     }
     return imageData;
   }
@@ -83,12 +83,17 @@ export class CanvasTestComponent implements OnInit {
     };
   }
 
-  public drawRectangle(x: number, y: number, canvas): void {
-    canvas.beginPath();
-    canvas.rect(x, y, 10, 10);
-    canvas.fillStyle = "red";
-    canvas.fill();
-    canvas.closePath();
+  public canvasClick(event) {
+    var coords = this.getMousePosition(event);
+    this.drawRectangle(coords.x, coords.y, this.ctx);
+  }
+
+  public drawRectangle(x: number, y: number, canvasContext): void {
+    canvasContext.beginPath();
+    canvasContext.rect(x, y, 10, 10);
+    canvasContext.fillStyle = "red";
+    canvasContext.fill();
+    canvasContext.closePath();
   }
 
 

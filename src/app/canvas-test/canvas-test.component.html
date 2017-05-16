@@ -1,4 +1,4 @@
-<canvas id="myCanvas" [width]="imageWidth" [height]="imageHeight" style="border: 1px solid black" (click)="debugLog($event)"></canvas>
+<canvas id="myCanvas" [width]="imageWidth" [height]="imageHeight" style="border: 1px solid black" (click)="canvasClick($event)"></canvas>
 <img [src]="targetImage.src" [alt]="targetImage.alt">
 
 <button type="button" name="button" (click)="logPixelData()">Log it</button>
