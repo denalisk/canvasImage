@@ -12,12 +12,15 @@ export class CanvasTestComponent implements OnInit {
   public imageWidth: number;
   public pCanvas = null;
   public ctx = null;
+  public imgDataUrl = null;
 
-  constructor() { }
+  constructor() {
+    this.targetImage.src = "../../assets/images/tile.jpg";
+    this.targetImage.alt = "a pic";
+    this.debugLog();
+   }
 
   ngOnInit() {
-    this.targetImage.src = "../../assets/images/tile.jpg",
-    this.targetImage.alt = "a pic";
     this.imageHeight = this.targetImage.height;
     this.imageWidth = this.targetImage.width;
     this.pCanvas = document.getElementById("myCanvas");
@@ -55,6 +58,16 @@ export class CanvasTestComponent implements OnInit {
   public loadImage() {
     this.ctx.drawImage(this.targetImage, 0, 0);
   }
+
+  public invert(data, canvasContext) {
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 255 - data[i];
+      data[i + 1] = 255 - data[i + 1];
+      data[i + 2] = 255 - data[i + 2];
+    }
+    canvasContext.putImageData(data, 0, 0);
+  }
+
 }
 //
 // export class CanvasTestComponent implements OnInit {
