@@ -15,7 +15,7 @@ export class CanvasTestComponent implements OnInit {
   public imgDataUrl = null;
 
   constructor() {
-    this.targetImage.src = "../../assets/images/tile.jpg";
+    this.targetImage.src = "../../assets/images/hippo.jpg";
     this.targetImage.alt = "a pic";
     this.debugLog();
    }
@@ -59,13 +59,19 @@ export class CanvasTestComponent implements OnInit {
     this.ctx.drawImage(this.targetImage, 0, 0);
   }
 
-  public invert(data, canvasContext) {
-    for (let i = 0; i < data.length; i += 4) {
-      data[i] = 255 - data[i];
-      data[i + 1] = 255 - data[i + 1];
-      data[i + 2] = 255 - data[i + 2];
+  public invert(imageData) {
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      imageData.data[i] = 255 - imageData.data[i];
+      imageData.data[i + 1] = 255 - imageData.data[i + 1];
+      imageData.data[i + 2] = 255 - imageData.data[i + 2];
     }
-    canvasContext.putImageData(data, 0, 0);
+    return imageData;
+  }
+
+  public applyFilter(filter, image, context) {
+    var imageData = this.getPixelData(image);
+    imageData = filter(imageData);
+    context.putImageData(imageData, 0, 0);
   }
 
 }
