@@ -16,8 +16,8 @@ export class CanvasTestComponent implements OnInit {
   public imgDataUrl = null;
 
   // Test values
-  public starterXCoord: number = 20;
-  public starterYCoord: number = 20;
+  public starterXCoord: number = 4;
+  public starterYCoord: number = 4;
 
   constructor() {
     this.targetImage.src = "../../assets/images/tile.jpg";
