@@ -67,7 +67,8 @@ export class Traverser {
     // console.log("Node B is :");
     // console.log(this.nodeB);
     var anchorNode = (this.nodeA.edge === this.nodeA.pastNode.edge) ? this.nodeB : this.nodeA;
-    // console.log(anchorNode);
+    console.log("anchorNode");
+    console.log(anchorNode.edge === anchorNode.partner.edge);
     this.moveVector = [(anchorNode.x - anchorNode.partner.x), (anchorNode.y-anchorNode.partner.y)];
     this.nodeA = anchorNode;
     this.nodeB = anchorNode.pastNode;
@@ -81,7 +82,7 @@ export class Traverser {
     // traverser gets rotated
     var borderArray = [];
     borderArray.push((this.nodeA.edge === true) ? this.nodeA.getCoords() : this.nodeB.getCoords());
-    while (borderArray.length < 76) {
+    while (borderArray.length < 70) {
       // console.log("while loop stage 1");
       // console.log("Node A is :");
       // console.log(this.nodeA);

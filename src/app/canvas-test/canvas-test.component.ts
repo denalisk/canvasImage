@@ -16,8 +16,8 @@ export class CanvasTestComponent implements OnInit {
   public imgDataUrl = null;
 
   // Test values
-  public starterXCoord: number = 100;
-  public starterYCoord: number = 100;
+  public starterXCoord: number = 120;
+  public starterYCoord: number = 120;
 
   constructor() {
     this.targetImage.src = "../../assets/images/circle.png";
