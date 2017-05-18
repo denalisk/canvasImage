@@ -16,11 +16,11 @@ export class CanvasTestComponent implements OnInit {
   public imgDataUrl = null;
 
   // Test values
-  public starterXCoord: number = 4;
-  public starterYCoord: number = 4;
+  public starterXCoord: number = 100;
+  public starterYCoord: number = 100;
 
   constructor() {
-    this.targetImage.src = "../../assets/images/tile.jpg";
+    this.targetImage.src = "../../assets/images/circle.png";
     this.targetImage.alt = "a pic";
    }
 
@@ -121,7 +121,20 @@ export class CanvasTestComponent implements OnInit {
   public runTraverse() {
     var newData = this.getPixelData(this.targetImage);
     var traverser = new Traverser(newData);
-    traverser.findEdge([this.starterXCoord, this.starterYCoord]);
+    var coords = traverser.findEdge([this.starterXCoord, this.starterYCoord]);
+    this.drawPath(coords);
+  }
+
+  public drawPath(coordinateArray) {
+    var pCtx = this.ctx;
+    pCtx.beginPath();
+    pCtx.moveTo(coordinateArray[0][0], coordinateArray[0][1]);
+    for (let index = 1; index < coordinateArray.length; index++) {
+      pCtx.lineTo(coordinateArray[index][0], coordinateArray[index][1]);
+    }
+    pCtx.strokeStyle = "#ff0000";
+    pCtx.stroke();
+    pCtx.closePath();
   }
 
 

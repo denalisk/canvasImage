@@ -38,7 +38,7 @@ export class Traverser {
   public nodeA: CheckNode;
   public nodeB: CheckNode;
   public nodeContrast: boolean;
-  public cutoff: number = 650;
+  public cutoff: number = 200;
 
   public moveVector: number[]; //This is the directions the traverser moves each check
 
@@ -51,7 +51,7 @@ export class Traverser {
   }
 
   public moveNode(targetNode: CheckNode) {
-    console.log("Inside moveNode");
+    // console.log("Inside moveNode");
     targetNode.pastNode = targetNode.cloneNode();
     targetNode.x += this.moveVector[0];
     targetNode.y += this.moveVector[1];
@@ -61,13 +61,13 @@ export class Traverser {
   public rotateNodes() {
     // Rotates the traverser. Anchors off the current unique node and switches
     // direction based on that
-    console.log("Inside rotateNodes");
-    console.log("Node A is :");
-    console.log(this.nodeA);
-    console.log("Node B is :");
-    console.log(this.nodeB);
+    // console.log("Inside rotateNodes");
+    // console.log("Node A is :");
+    // console.log(this.nodeA);
+    // console.log("Node B is :");
+    // console.log(this.nodeB);
     var anchorNode = (this.nodeA.edge === this.nodeA.pastNode.edge) ? this.nodeB : this.nodeA;
-    console.log(anchorNode);
+    // console.log(anchorNode);
     this.moveVector = [(anchorNode.x - anchorNode.partner.x), (anchorNode.y-anchorNode.partner.y)];
     this.nodeA = anchorNode;
     this.nodeB = anchorNode.pastNode;
@@ -80,13 +80,17 @@ export class Traverser {
     // gets pushed to the borderArray (as the next border point) or if the
     // traverser gets rotated
     var borderArray = [];
-    borderArray.push((this.nodeA.edge === true) ? this.nodeA : this.nodeB);
-    while (borderArray.length < 100) {
-      console.log("while loop stage 1");
-      console.log(borderArray.length);
+    borderArray.push((this.nodeA.edge === true) ? this.nodeA.getCoords() : this.nodeB.getCoords());
+    while (borderArray.length < 76) {
+      // console.log("while loop stage 1");
+      // console.log("Node A is :");
+      // console.log(this.nodeA);
+      // console.log("Node B is :");
+      // console.log(this.nodeB);
+      // console.log(borderArray.length);
       this.checkNodeContrast();
       if (this.nodeContrast) {
-        borderArray.push(this.nodeA.edge ? this.nodeA.getCoords : this.nodeB.getCoords);
+        borderArray.push(this.nodeA.edge ? this.nodeA.getCoords() : this.nodeB.getCoords());
         this.moveNode(this.nodeA);
         this.moveNode(this.nodeB);
         this.nodeA.pastNode.addPartner(this.nodeB.pastNode);
@@ -94,6 +98,7 @@ export class Traverser {
         this.rotateNodes();
       }
     }
+    console.log(borderArray);
     return borderArray;
   }
 
@@ -107,13 +112,8 @@ export class Traverser {
     this.nodeB = this.nodeA.pastNode;
     this.checkEdge(this.nodeB);
     this.nodeA.addPartner(this.nodeB);
-    console.log("Node A is :");
-    console.log(this.nodeA);
-    console.log("Node B is :");
-    console.log(this.nodeB);
-
     var testLimit = 0;
-    while (this.nodeA.edge === this.nodeB.edge && testLimit < 100) {
+    while (this.nodeA.edge === this.nodeB.edge && testLimit < 1000) {
       console.log("This is a findedge loop tick");
       this.moveNode(this.nodeA);
       this.moveNode(this.nodeB);
@@ -121,7 +121,7 @@ export class Traverser {
       testLimit++;
     }
     this.moveVector = [1, 0];
-    // return this.traverse();
+    return this.traverse();
   }
 
   public checkEdge(targetNode: CheckNode) {
@@ -129,18 +129,18 @@ export class Traverser {
     // the edge of the image
     var index = targetNode.getIndex(this.imageData, this.imageDepth);
     var darkness = this.imageData.data[index] + this.imageData.data[index + 1] + this.imageData.data[index + 2];
-    console.log("Darkness is " + darkness);
+    // console.log("Darkness is " + darkness);
     if (darkness < this.cutoff || targetNode.x === 0 || targetNode.x === (this.imageData.width - 1) || targetNode.y === (this.imageData.height - 1) || targetNode.y === 0) {
       targetNode.edge = true;
     } else {
       targetNode.edge = false;
     }
-    console.log("Check edge is " + targetNode.edge);
+    // console.log("Check edge is " + targetNode.edge);
   }
 
   public checkNodeContrast() {
-    console.log("In the check contrast, this is the current nodeA");
-    console.log(this.nodeA);
+    // console.log("In the check contrast, this is the current nodeA");
+    // console.log(this.nodeA);
     this.nodeContrast = (this.nodeA.edge !== this.nodeB.edge);
   }
 
