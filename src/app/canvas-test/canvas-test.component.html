@@ -8,3 +8,12 @@
 <button type="button" name="button" (click)="loadImage()">Load the image</button>
 
 <button type="button" name="button" (click)="applyFilter(checkDarkness, targetImage, ctx)">Invert?</button>
+
+<div class="">
+  <label for="xCoord">X coordinate to start at</label>
+  <input type="number" name="xCoord" (input)="starterXCoord = $event.target.value">
+  <hr>
+  <label for="yCoord">y coordinate to start at</label>
+  <input type="number" name="yCoord" (input)="starterYCoord = $event.target.value">
+  <button type="button" name="button" (click)="runTraverse()">Test traverser</button>
+</div>

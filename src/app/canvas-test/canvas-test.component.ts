@@ -15,6 +15,10 @@ export class CanvasTestComponent implements OnInit {
   public ctx = null;
   public imgDataUrl = null;
 
+  // Test values
+  public starterXCoord: number = 20;
+  public starterYCoord: number = 20;
+
   constructor() {
     this.targetImage.src = "../../assets/images/tile.jpg";
     this.targetImage.alt = "a pic";
@@ -28,6 +32,7 @@ export class CanvasTestComponent implements OnInit {
   }
 
   public getPixelData(image) {
+    // Returns the image data object by creating a canvas and calling getImageData
     var myCanvas = this.createCanvas(image.width, image.height);
     var ctx = myCanvas.getContext("2d");
     ctx.drawImage(image, 0, 0);
@@ -57,6 +62,7 @@ export class CanvasTestComponent implements OnInit {
 
     // console.log("Current mouse position");
     // console.log(this.getMousePosition(event));
+
     let logData = this.getPixelData(this.targetImage);
     var testConnection = new Traverser(logData);
     testConnection.tester();
@@ -110,6 +116,12 @@ export class CanvasTestComponent implements OnInit {
     canvasContext.fillStyle = "red";
     canvasContext.fill();
     canvasContext.closePath();
+  }
+
+  public runTraverse() {
+    var newData = this.getPixelData(this.targetImage);
+    var traverser = new Traverser(newData);
+    traverser.findEdge([this.starterXCoord, this.starterYCoord]);
   }
 
 

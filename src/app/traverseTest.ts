@@ -20,6 +20,12 @@ export class CheckNode {
   public getCoords() {
     return [this.x, this.y];
   }
+
+  public cloneNode() {
+    var newNode = new CheckNode(this.x, this.y);
+    newNode.edge = this.edge;
+    return newNode;
+  }
 }
 
 export class Traverser {
@@ -39,7 +45,7 @@ export class Traverser {
   }
 
   public moveNode(targetNode: CheckNode) {
-    targetNode.pastNode = targetNode;
+    targetNode.pastNode = targetNode.cloneNode();
     targetNode.x += this.moveVector[0];
     targetNode.y += this.moveVector[1];
     this.checkEdge(targetNode);
@@ -48,7 +54,11 @@ export class Traverser {
   public rotateNodes() {
     // Rotates the traverser. Anchors off the current unique node and switches
     // direction based on that
+    console.log("Inside rotateNodes");
+    console.log(this.nodeA);
+    console.log(this.nodeB);
     var anchorNode = (this.nodeA.edge === this.nodeA.pastNode.edge) ? this.nodeB : this.nodeA;
+    console.log(anchorNode);
     this.moveVector = [(anchorNode.x - anchorNode.partner.x), (anchorNode.y-anchorNode.partner.y)];
     this.nodeA = anchorNode;
     this.nodeB = anchorNode.pastNode;
@@ -63,6 +73,8 @@ export class Traverser {
     var borderArray = [];
     borderArray.push((this.nodeA.edge === true) ? this.nodeA : this.nodeB);
     while (borderArray.length < 100) {
+      console.log("while loop stage 1");
+      console.log(borderArray.length);
       this.checkNodeContrast();
       if (this.nodeContrast) {
         borderArray.push(this.nodeA.edge ? this.nodeA.getCoords : this.nodeB.getCoords);
@@ -72,6 +84,7 @@ export class Traverser {
         this.rotateNodes();
       }
     }
+    return borderArray;
   }
 
   public findEdge(coords) {
@@ -82,12 +95,20 @@ export class Traverser {
     this.checkEdge(this.nodeA);
     this.moveNode(this.nodeA);
     this.nodeB = this.nodeA.pastNode;
-    while (this.nodeA.edge === this.nodeB.edge) {
-      this.moveNode(this.nodeA);
-      this.moveNode(this.nodeB);
-    }
+
+    // debugLog
+    console.log(this.nodeA);
+    console.log(this.nodeB);
 
 
+    // var testLimit = 0;
+    // while (this.nodeA.edge === this.nodeB.edge && testLimit < 100) {
+    //   this.moveNode(this.nodeA);
+    //   this.moveNode(this.nodeB);
+    //   testLimit++;
+    // }
+    // this.moveVector = [1, 0];
+    // return this.traverse();
   }
 
   public checkEdge(targetNode: CheckNode) {
